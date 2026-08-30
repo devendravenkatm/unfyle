@@ -19,12 +19,16 @@ def add_document(document_list):
     print("Exists:",file.exists())
     print("Path:",file_path)
     if file.exists():
-        print("Size:",file.stat().st_size)
-        extracted_text = extract_file(file_path)
-        document = {"Name": file.name , "Type" : file.suffix, "Size" : file.stat().st_size, "Path" : file_path, "Text" : extracted_text}
-        print("Document added: ", document)
-        document_list.append(document)
-        return True
+        if file.suffix.lower() == ".pdf":
+            print("Size:",file.stat().st_size)
+            extracted_text = extract_file(file_path)
+            document = {"Name": file.name , "Type" : file.suffix, "Size" : file.stat().st_size, "Path" : file_path, "Text" : extracted_text}
+            print("Document added: ", document)
+            document_list.append(document)
+            return True
+        else:
+            print("Unsupported file format")
+            return False
     else:
         print("File not Found")
         return False
