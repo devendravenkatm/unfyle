@@ -77,11 +77,30 @@ def save_documents(document_list):
 def load_documents():
     with open("documents.json", "r") as file:
         return json.load(file)
-
 try :
     document_list = load_documents()
 except FileNotFoundError:
     document_list = []
+
+def edit_documents(document_list):
+    if len(document_list) == 0:
+        print("Invalid Document Number")
+        return
+    list_documents(document_list)
+    try:
+        r = int(input("Enter the document number to edit: "))
+    except ValueError:
+        print("Invalid document number")
+        return
+    if r < 1 or r > len(document_list):
+        print("Invalid document number")
+        return
+    index1 = r - 1
+    document = document_list[index1]
+    new_name = input("Enter the name: ")
+    document["Name"] = new_name
+    print("Document Renamed Successfully")
+
 
 def delete_documents(document_list):
     if len(document_list) == 0:
@@ -103,12 +122,13 @@ def delete_documents(document_list):
 
 
 
-while choice != '5':
+while choice != '6':
    print("1. Add Document")
    print("2. List Documents")
    print("3. Search Documents")
-   print("4. Delete Documents")
-   print("5. Exit")
+   print("4. Edit Documents")
+   print("5. Delete Documents")
+   print("6. Exit")
    choice = input("Choose an option: ")
    if choice == '1':
       result = add_document(document_list)
@@ -119,9 +139,12 @@ while choice != '5':
    elif choice == '3':
       search_documents(document_list)
    elif choice == '4':
+       edit_documents(document_list)
+       save_documents(document_list)
+   elif choice == '5':
       delete_documents(document_list)
       save_documents(document_list)
-   elif choice == '5':
+   elif choice == '6':
        print("5. Exit")
    else:
       print("Invalid")
