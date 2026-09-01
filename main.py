@@ -14,12 +14,17 @@ def add_document(document_list):
     print("1. Add Documents Selected")
     file_path = input("Enter the file path:")
     file = Path(file_path)
+        
     print("Name:",file.name)
     print("Type:",file.suffix)
     print("Exists:",file.exists())
     print("Path:",file_path)
     if file.exists():
         if file.suffix.lower() == ".pdf":
+            for document in document_list:
+                if document["Path"] == file_path:
+                    print("Document already exists")
+                    return False
             print("Size:",file.stat().st_size)
             extracted_text = extract_file(file_path)
             document = {"Name": file.name , "Type" : file.suffix, "Size" : file.stat().st_size, "Path" : file_path, "Text" : extracted_text}
