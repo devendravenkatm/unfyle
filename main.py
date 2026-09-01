@@ -97,8 +97,12 @@ def edit_documents(document_list):
         return
     index1 = r - 1
     document = document_list[index1]
+    file = Path(document["Path"])
     new_name = input("Enter the name: ")
+    new_path = file.parent/new_name
+    file.rename(new_path)
     document["Name"] = new_name
+    document["Path"] = str(new_path)
     print("Document Renamed Successfully")
 
 
@@ -119,7 +123,6 @@ def delete_documents(document_list):
     deleted_document = document_list.pop(index)
     print("Document deleted:", deleted_document)
         
-
 
 
 while choice != '6':
@@ -145,7 +148,7 @@ while choice != '6':
       delete_documents(document_list)
       save_documents(document_list)
    elif choice == '6':
-       print("5. Exit")
+       print("6. Exit")
    else:
       print("Invalid")
    
