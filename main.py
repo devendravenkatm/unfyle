@@ -41,7 +41,8 @@ def list_documents(document_list):
         i = 0
         for document in document_list:
             i += 1
-            print(i, document["Name"], document["Type"], document["Size"])
+            size_kb = document["Size"]/1024
+            print(i, document["Name"], document["Type"], f"{size_kb:.2f}KB")
 
 def extract_file(file_path):
     text_list = []
@@ -82,14 +83,32 @@ try :
 except FileNotFoundError:
     document_list = []
 
+def delete_documents(document_list):
+    if len(document_list) == 0:
+        print("No Documents Found")
+        return
+    list_documents(document_list)
+    try:
+        d = int(input("Enter the document number to delete: "))
+    except ValueError:
+        print("Please enter a valid number")
+        return
+    if d < 1 or d > len(document_list):
+        print("Invalid number")
+        return
+    index = d - 1
+    deleted_document = document_list.pop(index)
+    print("Document deleted:", deleted_document)
+        
 
 
 
-while choice != '4':
+while choice != '5':
    print("1. Add Document")
    print("2. List Documents")
    print("3. Search Documents")
-   print("4. Exit")
+   print("4. Delete Documents")
+   print("5. Exit")
    choice = input("Choose an option: ")
    if choice == '1':
       result = add_document(document_list)
@@ -100,7 +119,10 @@ while choice != '4':
    elif choice == '3':
       search_documents(document_list)
    elif choice == '4':
-      print("4. Exit")
+      delete_documents(document_list)
+      save_documents(document_list)
+   elif choice == '5':
+       print("5. Exit")
    else:
       print("Invalid")
    
